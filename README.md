@@ -2,6 +2,29 @@
 
 環境構築が大変という方のために、ある程度オニオンアーキテクチャに準拠する形でサンプルアプリケーション（TODOリスト）を用意しました。ここから拡張していく形で課題に取り組んでください。
 
+## curl
+
+タスクの作成： 
+
+```bash
+// タスク作成
+curl -X POST http://localhost:3000/tasks/new -H "Content-Type: application/json" -d '{"title": "新しいタスク", "description": "詳細説明"}'
+
+// タスク編集
+curl -X PATCH http://localhost:3000/tasks/{taskId}/title -H "Content-Type: application/json" -d '{"title": "編集後のタイトル"}'
+
+// タスク取得
+curl http://localhost:3000/tasks/{taskId}
+
+// タスク一覧取得
+curl http://localhost:3000/tasks
+
+// タスク完了状態への更新
+curl -X POST http://localhost:3000/tasks/{id}/done
+
+```
+
+
 ## 環境構築
 
 - `pnpm install`で依存関係をインストールしてください。

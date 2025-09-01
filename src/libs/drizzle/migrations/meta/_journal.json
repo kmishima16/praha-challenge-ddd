@@ -8,6 +8,13 @@
       "when": 1716362343900,
       "tag": "0000_striped_jimmy_woo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1756717963425,
+      "tag": "0001_yellow_the_fallen",
+      "breakpoints": true
     }
   ]
 }
