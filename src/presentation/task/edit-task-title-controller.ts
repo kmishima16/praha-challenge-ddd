@@ -17,22 +17,10 @@ type Env = {
 
 export const editTaskTitleController = new Hono<Env>();
 
-editTaskTitleController.post(
-  "/tasks/:id/edit",
-  zValidator("param", z.object({ id: z.string() }), (result, c) => {
-    if (!result.success) {
-      return c.text("invalid id", 400);
-    }
-
-    return;
-  }),
-  zValidator("json", z.object({ title: z.string() }), (result, c) => {
-    if (!result.success) {
-      return c.text("invalid body", 400);
-    }
-
-    return;
-  }),
+editTaskTitleController.patch(
+  "/tasks/:id",
+  zValidator("param", z.object({ id: z.string() })),
+  zValidator("json", z.object({ name: z.string() })),
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
     const taskRepository = new PostgresqlTaskRepository(database);
@@ -48,7 +36,7 @@ editTaskTitleController.post(
 
       const payload = await context.var.editTaskTitleUseCase.invoke({
         taskId: param.id,
-        title: body.title,
+        name: body.name,
       });
       return context.json(payload);
     } catch (error) {

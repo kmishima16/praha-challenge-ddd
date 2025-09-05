@@ -7,21 +7,17 @@
 タスクの作成： 
 
 ```bash
-// タスク作成
-curl -X POST http://localhost:3000/tasks/new -H "Content-Type: application/json" -d '{"title": "新しいタスク", "description": "詳細説明"}'
+// 課題作成
+curl -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d '{"name": "特大課題DDD", "contentUrl": "https://separated-rover-67e.notion.site/DDD-03e9d01f643244f0ad9d80f148a46563"}'
 
-// タスク編集
-curl -X PATCH http://localhost:3000/tasks/{taskId}/title -H "Content-Type: application/json" -d '{"title": "編集後のタイトル"}'
+// 課題編集
+curl -X PATCH http://localhost:3000/tasks/01K4DG9WJ3RK8NN31VC2X1P0NT -H "Content-Type: application/json" -d '{"name": "特大課題：プラハチャレンジをDDDで実装してみる"}'
 
-// タスク取得
-curl http://localhost:3000/tasks/{taskId}
+// 課題取得
+curl -X GET http://localhost:3000/tasks/01K4DG9WJ3RK8NN31VC2X1P0NT
 
-// タスク一覧取得
-curl http://localhost:3000/tasks
-
-// タスク完了状態への更新
-curl -X POST http://localhost:3000/tasks/{id}/done
-
+// 課題一覧取得
+curl -X GET http://localhost:3000/tasks
 ```
 
 

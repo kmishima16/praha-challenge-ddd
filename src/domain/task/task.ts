@@ -35,7 +35,7 @@ export class Task {
     return this.#name;
   }
 
-  public get content_url(): string | null {
+  public get content_url(): string {
     return this.#content_url;
   }
 

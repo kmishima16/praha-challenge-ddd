@@ -14,8 +14,8 @@ export class PostgresqlTaskListQueryService
     return this.database
       .select({
         id: tasks.id,
-        title: tasks.title,
-        done: tasks.done,
+        name: tasks.name,
+        contentUrl: tasks.contentUrl,
       })
       .from(tasks);
   }

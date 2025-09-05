@@ -15,14 +15,10 @@ type Env = {
 export const createTaskController = new Hono<Env>();
 
 createTaskController.post(
-  "/tasks/new",
-  zValidator("json", z.object({ title: z.string() }), (result, c) => {
-    if (!result.success) {
-      return c.text("invalid title", 400);
-    }
-
-    return;
-  }),
+  "/tasks",
+  zValidator(
+    "json",
+    z.object({ name: z.string(), contentUrl: z.string().url() })),
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
     const taskRepository = new PostgresqlTaskRepository(database);
@@ -35,6 +31,6 @@ createTaskController.post(
     const body = context.req.valid("json");
 
     const payload = await context.var.createTaskUseCase.invoke(body);
-    return context.json(payload);
+    return context.json(payload, 201);
   },
 );
