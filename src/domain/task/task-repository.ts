@@ -1,6 +1,6 @@
 import type { Task } from "./task";
 
-export type TaskRepositoryInterface = {
-  save: (task: Task) => Promise<Task>;
-  findById(id: string): Promise<Task | undefined>;
-};
+export interface ITaskRepository {
+  save(task: Task): Promise<void>;
+  findById(id: string): Promise<Task | null>;
+}

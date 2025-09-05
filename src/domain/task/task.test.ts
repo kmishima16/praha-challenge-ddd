@@ -1,99 +1,64 @@
-import { describe, expect, test } from "vitest";
-import { z } from "zod";
-import { ulid } from "../../libs/ulid";
+import { describe, expect, it } from "vitest";
 import { Task } from "./task";
 
-describe("task", () => {
-  describe("タイトルのみでタスクを作成", () => {
-    const title = "牛乳を買う";
-    const task = new Task({ title });
+describe("Task Entity", () => {
+  describe("create", () => {
+    it("Taskを作成できる", () => {
+      const taskName = "特大課題：プラハチャレンジをDDDで実装してみる";
+      const contentUrl =
+        "https://separated-rover-67e.notion.site/DDD-03e9d01f643244f0ad9d80f148a46563";
 
-    test("idがulidで生成される", () => {
-      const generated = task.id;
-      const isUlid = z.string().ulid().safeParse(generated);
+      const task = Task.create(taskName, contentUrl);
 
-      expect(isUlid.success).toBe(true);
+      expect(task).toBeInstanceOf(Task);
+      expect(task.id).toBeDefined(); // id採番が正しくできているか
+      expect(typeof task.id).toBe("string");
+      expect(task.name).toBe(taskName);
+      expect(task.content_url).toBe(contentUrl);
     });
 
-    test("タイトルが設定される", () => {
-      expect(task.title).toBe(title);
-    });
-
-    test("タスクは未完了", () => {
-      expect(task.isDone).toBe(false);
+    it("nameが空白の場合、エラーを返す", () => {
+      expect(() => {
+        Task.create("", "https://example.com/spec");
+      }).toThrow("課題名が未入力です。");
     });
   });
 
-  describe("すべてのプロパティを指定してタスクを作成", () => {
-    const id = ulid();
-    const title = "卵を買う";
-    const done = true;
-    const task = new Task({ id, title, done });
+  describe("reconstruct", () => {
+    it("Taskのreconstructができる", () => {
+      const id = "01ARZ3ABC"; //
+      const taskName = "データベースから取得したタスク";
+      const contentUrl = "https://example.com/db-spec";
 
-    test("指定したプロパティが設定される", () => {
+      const task = Task.reconstruct(id, taskName, contentUrl);
+
+      expect(task).toBeInstanceOf(Task);
       expect(task.id).toBe(id);
-      expect(task.title).toBe(title);
-      expect(task.isDone).toBe(done);
+      expect(task.name).toBe(taskName);
+      expect(task.content_url).toBe(contentUrl);
     });
   });
 
-  describe("タイトルが空文字の場合", () => {
-    const title = "";
+  describe("changeName", () => {
+    it("名前を変更できる", () => {
+      const initialName = "before change";
+      const updatedName = "after change";
+      const contentUrl = "https://example.com";
 
-    test("エラーが発生する", () => {
-      expect(() => new Task({ title })).toThrow("title must not be empty");
+      const task = Task.create(initialName, contentUrl);
+      task.changeName(updatedName);
+
+      expect(task.name).toBe(updatedName);
     });
-  });
 
-  describe("タイトルが100文字を超える場合", () => {
-    const title = "a".repeat(101);
+    it("名前が未入力の場合、エラー出力", () => {
+      const contentUrl = "https://example.com";
+      const task = Task.create("Valid Name", contentUrl);
 
-    test("エラーが発生する", () => {
-      expect(() => new Task({ title })).toThrow(
-        "title must be less than 100 characters",
-      );
-    });
-  });
-
-  describe("タイトルを編集する", () => {
-    const before = "ご飯を炊く";
-    const after = "パスタを茹でる";
-    const task = new Task({ title: before });
-    task.edit(after);
-
-    test("タイトルが更新される", () => {
-      expect(task.title).toBe(after);
-    });
-  });
-
-  describe("タイトルを空文字に編集する", () => {
-    const before = "掃除機をかける";
-    const after = "";
-    const task = new Task({ title: before });
-
-    test("エラーが発生する", () => {
-      expect(() => task.edit(after)).toThrow("title must not be empty");
-    });
-  });
-
-  describe("タイトルを100文字を超える文字列に編集する", () => {
-    const before = "ご飯を炊く";
-    const after = "a".repeat(101);
-    const task = new Task({ title: before });
-
-    test("エラーが発生する", () => {
-      expect(() => task.edit(after)).toThrow(
-        "title must be less than 100 characters",
-      );
-    });
-  });
-
-  describe("タスクを完了にする", () => {
-    const task = new Task({ title: "洗濯機を回す" });
-    task.makeAsDone();
-
-    test("タスクが完了状態になる", () => {
-      expect(task.isDone).toBe(true);
+      // 空文字への変更はエラーになること
+      expect(() => {
+        task.changeName("");
+      }).toThrow("課題名が未入力です。");
     });
   });
 });

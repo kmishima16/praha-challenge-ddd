@@ -1,48 +1,48 @@
-import { z } from "zod";
 import { ulid } from "../../libs/ulid";
 
 export class Task {
-  readonly #id: string;
-  #title: string;
-  #isDone: boolean;
+  #id: string;
+  #name: string;
+  #content_url: string;
 
-  private readonly titleSchema = z
-    .string()
-    .min(1, "title must not be empty")
-    .max(100, "title must be less than 100 characters");
-
-  public constructor(
-    props: { title: string } | { id: string; title: string; done: boolean },
-  ) {
-    const fromData = "id" in props;
-    if (fromData) {
-      this.#id = props.id;
-      this.#title = props.title;
-      this.#isDone = props.done;
-    } else {
-      this.#id = ulid();
-      this.#title = this.titleSchema.parse(props.title);
-      this.#isDone = false;
+  private constructor(id: string, name: string, content_url: string) {
+    if (name.length === 0) {
+      throw new Error("課題名が未入力です。");
     }
+    this.#id = id;
+    this.#name = name;
+    this.#content_url = content_url;
   }
 
-  public get id() {
+  public static create(name: string, content_url: string): Task {
+    const id = ulid();
+    return new Task(id, name, content_url);
+  }
+
+  public static reconstruct(
+    id: string,
+    name: string,
+    content_url: string,
+  ): Task {
+    return new Task(id, name, content_url);
+  }
+
+  public get id(): string {
     return this.#id;
   }
 
-  public get title() {
-    return this.#title;
+  public get name(): string {
+    return this.#name;
   }
 
-  public get isDone() {
-    return this.#isDone;
+  public get content_url(): string | null {
+    return this.#content_url;
   }
 
-  public edit(title: string) {
-    this.#title = this.titleSchema.parse(title);
-  }
-
-  public makeAsDone() {
-    this.#isDone = true;
+  public changeName(newName: string): void {
+    if (newName.length === 0) {
+      throw new Error("課題名が未入力です。");
+    }
+    this.#name = newName;
   }
 }
