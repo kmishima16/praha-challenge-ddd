@@ -1,11 +1,5 @@
 import { relations } from "drizzle-orm";
-import {
-  date,
-  pgTable,
-  timestamp,
-  unique,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { date, pgTable, timestamp, unique, varchar } from "drizzle-orm/pg-core";
 
 //// ------------------------------------------------------
 //// Users
@@ -71,7 +65,7 @@ export const teamMemberships = pgTable("team_memberships", {
 //// Tasks & Progress
 //// ------------------------------------------------------
 
-export const tasks = pgTable("tasks", {
+export const assignments = pgTable("assignments", {
   id: varchar("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   contentUrl: varchar("content_url", { length: 2048 }).notNull(),
@@ -86,31 +80,33 @@ export const taskProgress = pgTable("task_progress", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const assignments = pgTable(
-  "assignments",
+export const tasks = pgTable(
+  "tasks",
   {
     id: varchar("id").primaryKey(),
     userId: varchar("user_id")
       .notNull()
       .references(() => users.id),
-    taskId: varchar("task_id")
+    assignmentId: varchar("assignment_id")
       .notNull()
-      .references(() => tasks.id),
+      .references(() => assignments.id),
     taskProgressId: varchar("task_progress_id")
       .notNull()
       .references(() => taskProgress.id),
     updatedAt: timestamp("updated_at").notNull(),
   },
-  (table) => [unique("unique_user_task").on(table.userId, table.taskId)],
+  (table) => [
+    unique("unique_user_assignment").on(table.userId, table.assignmentId),
+  ],
 );
 
 export const assignmentStatusHistories = pgTable(
   "assignment_status_histories",
   {
     id: varchar("id").primaryKey(),
-    assignmentId: varchar("assignment_id")
+    taskId: varchar("task_id")
       .notNull()
-      .references(() => assignments.id),
+      .references(() => tasks.id),
     taskProgressId: varchar("task_progress_id")
       .notNull()
       .references(() => taskProgress.id),
@@ -127,7 +123,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   }),
   userStatusHistories: many(userStatusHistories),
   teamMemberships: many(teamMemberships),
-  assignments: many(assignments),
+  tasks: many(tasks),
 }));
 
 export const userStatusRelations = relations(userStatus, ({ many }) => ({
@@ -153,37 +149,40 @@ export const teamsRelations = relations(teams, ({ many }) => ({
   teamMemberships: many(teamMemberships),
 }));
 
-export const teamMembershipRelations = relations(teamMemberships, ({ one }) => ({
-  user: one(users, {
-    fields: [teamMemberships.userId],
-    references: [users.id],
+export const teamMembershipRelations = relations(
+  teamMemberships,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [teamMemberships.userId],
+      references: [users.id],
+    }),
+    team: one(teams, {
+      fields: [teamMemberships.teamId],
+      references: [teams.id],
+    }),
   }),
-  team: one(teams, {
-    fields: [teamMemberships.teamId],
-    references: [teams.id],
-  }),
-}));
+);
 
-export const tasksRelations = relations(tasks, ({ many }) => ({
-  assignments: many(assignments),
+export const assignmentsRelations = relations(assignments, ({ many }) => ({
+  tasks: many(tasks),
 }));
 
 export const taskProgressRelations = relations(taskProgress, ({ many }) => ({
-  assignments: many(assignments),
+  tasks: many(tasks),
   assignmentStatusHistories: many(assignmentStatusHistories),
 }));
 
-export const assignmentsRelations = relations(assignments, ({ one, many }) => ({
+export const tasksRelations = relations(tasks, ({ one, many }) => ({
   user: one(users, {
-    fields: [assignments.userId],
+    fields: [tasks.userId],
     references: [users.id],
   }),
-  task: one(tasks, {
-    fields: [assignments.taskId],
-    references: [tasks.id],
+  assignment: one(assignments, {
+    fields: [tasks.assignmentId],
+    references: [assignments.id],
   }),
   taskProgress: one(taskProgress, {
-    fields: [assignments.taskProgressId],
+    fields: [tasks.taskProgressId],
     references: [taskProgress.id],
   }),
   assignmentStatusHistories: many(assignmentStatusHistories),
@@ -192,9 +191,9 @@ export const assignmentsRelations = relations(assignments, ({ one, many }) => ({
 export const assignmentStatusHistoriesRelations = relations(
   assignmentStatusHistories,
   ({ one }) => ({
-    assignment: one(assignments, {
-      fields: [assignmentStatusHistories.assignmentId],
-      references: [assignments.id],
+    task: one(tasks, {
+      fields: [assignmentStatusHistories.taskId],
+      references: [tasks.id],
     }),
     taskProgress: one(taskProgress, {
       fields: [assignmentStatusHistories.taskProgressId],
