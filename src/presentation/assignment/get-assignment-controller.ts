@@ -25,7 +25,9 @@ getAssignmentController.get(
   }),
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
-    const assignmentQueryService = new PostgresqlAssignmentQueryService(database);
+    const assignmentQueryService = new PostgresqlAssignmentQueryService(
+      database,
+    );
     context.set("assignmentQueryService", assignmentQueryService);
 
     await next();

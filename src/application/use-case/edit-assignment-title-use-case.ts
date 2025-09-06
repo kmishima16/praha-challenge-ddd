@@ -20,12 +20,16 @@ export class EditAssignmentTitleUseCaseNotFoundError extends Error {
 }
 
 export class EditAssignmentTitleUseCase {
-  public constructor(private readonly AssignmentRepository: IAssignmentRepository) {}
+  public constructor(
+    private readonly AssignmentRepository: IAssignmentRepository,
+  ) {}
 
   public async invoke(
     input: EditAssignmentTitleUseCaseInput,
   ): Promise<EditAssignmentTitleUseCasePayload> {
-    const Assignment = await this.AssignmentRepository.findById(input.assignmentId);
+    const Assignment = await this.AssignmentRepository.findById(
+      input.assignmentId,
+    );
     if (!Assignment) {
       throw new EditAssignmentTitleUseCaseNotFoundError();
     }

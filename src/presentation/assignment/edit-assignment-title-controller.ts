@@ -24,7 +24,9 @@ editAssignmentTitleController.patch(
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
     const assignmentRepository = new PostgresqlAssignmentRepository(database);
-    const editAssignmentTitleUseCase = new EditAssignmentTitleUseCase(assignmentRepository);
+    const editAssignmentTitleUseCase = new EditAssignmentTitleUseCase(
+      assignmentRepository,
+    );
     context.set("editAssignmentTitleUseCase", editAssignmentTitleUseCase);
 
     await next();

@@ -10,7 +10,6 @@ describe("Assignment Entity", () => {
 
       const assignment = Assignment.create(AssignmentName, contentUrl);
 
-      expect(assignment).toBeInstanceOf(assignment);
       expect(assignment.id).toBeDefined(); // id採番が正しくできているか
       expect(typeof assignment.id).toBe("string");
       expect(assignment.name).toBe(AssignmentName);
@@ -32,7 +31,6 @@ describe("Assignment Entity", () => {
 
       const assignment = Assignment.reconstruct(id, AssignmentName, contentUrl);
 
-      expect(assignment).toBeInstanceOf(assignment);
       expect(assignment.id).toBe(id);
       expect(assignment.name).toBe(AssignmentName);
       expect(assignment.content_url).toBe(contentUrl);

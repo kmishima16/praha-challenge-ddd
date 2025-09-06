@@ -23,7 +23,9 @@ createAssignmentController.post(
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
     const assignmentRepository = new PostgresqlAssignmentRepository(database);
-    const createAssignmentUseCase = new CreateAssignmentUseCase(assignmentRepository);
+    const createAssignmentUseCase = new CreateAssignmentUseCase(
+      assignmentRepository,
+    );
     context.set("createAssignmentUseCase", createAssignmentUseCase);
 
     await next();

@@ -1,18 +1,18 @@
 import { ulid } from "../../libs/ulid";
 
-type AssignmentStatus = "未着手" | "レビュー待ち" | "完了";
+type TaskStatus = "未着手" | "レビュー待ち" | "完了";
 
-export class Assignment {
+export class Task {
   #id: string;
   #studentId: string;
   #taskId: string;
-  #status: AssignmentStatus;
+  #status: TaskStatus;
 
   private constructor(
     id: string,
     studentId: string,
     taskId: string,
-    status: AssignmentStatus,
+    status: TaskStatus,
   ) {
     this.#id = id;
     this.#studentId = studentId;
@@ -20,19 +20,19 @@ export class Assignment {
     this.#status = status;
   }
 
-  public static create(studentId: string, taskId: string): Assignment {
+  public static create(studentId: string, taskId: string): Task {
     const id = ulid();
-    const status: AssignmentStatus = "未着手";
-    return new Assignment(id, studentId, taskId, status);
+    const status: TaskStatus = "未着手";
+    return new Task(id, studentId, taskId, status);
   }
 
   public static reconstruct(
     id: string,
     studentId: string,
     taskId: string,
-    status: AssignmentStatus,
-  ): Assignment {
-    return new Assignment(id, studentId, taskId, status);
+    status: TaskStatus,
+  ): Task {
+    return new Task(id, studentId, taskId, status);
   }
 
   public get id(): string {
@@ -47,11 +47,11 @@ export class Assignment {
     return this.#taskId;
   }
 
-  public get status(): AssignmentStatus {
+  public get status(): TaskStatus {
     return this.#status;
   }
 
-  public changeStatus(newStatus: AssignmentStatus): void {
+  public changeStatus(newStatus: TaskStatus): void {
     this.#status = newStatus;
   }
 }

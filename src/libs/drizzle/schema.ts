@@ -100,19 +100,16 @@ export const tasks = pgTable(
   ],
 );
 
-export const taskStatusHistories = pgTable(
-  "task_status_histories",
-  {
-    id: varchar("id").primaryKey(),
-    taskId: varchar("task_id")
-      .notNull()
-      .references(() => tasks.id),
-    taskProgressId: varchar("task_progress_id")
-      .notNull()
-      .references(() => taskProgress.id),
-    createdAt: timestamp("created_at").notNull(),
-  },
-);
+export const taskStatusHistories = pgTable("task_status_histories", {
+  id: varchar("id").primaryKey(),
+  taskId: varchar("task_id")
+    .notNull()
+    .references(() => tasks.id),
+  taskProgressId: varchar("task_progress_id")
+    .notNull()
+    .references(() => taskProgress.id),
+  createdAt: timestamp("created_at").notNull(),
+});
 
 // --- Relations ---
 

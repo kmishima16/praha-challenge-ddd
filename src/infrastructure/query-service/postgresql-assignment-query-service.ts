@@ -7,7 +7,9 @@ import type {
 import type { Database } from "../../libs/drizzle/get-database";
 import { assignments } from "../../libs/drizzle/schema";
 
-export class PostgresqlAssignmentQueryService implements AssignmentQueryServiceInterface {
+export class PostgresqlAssignmentQueryService
+  implements AssignmentQueryServiceInterface
+{
   public constructor(private readonly database: Database) {}
 
   public async invoke(

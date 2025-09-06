@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { Assignment} from "./task";
+import { Task } from "./task";
 
-describe("Assignment Entity", () => {
+describe("Task Entity", () => {
   const studentId = "student_01";
   const taskId = "task_01";
 
   describe("create", () => {
-    it("Assignmentを作成できる", () => {
-      const assignment = Assignment.create(studentId, taskId);
+    it("Taskを作成できる", () => {
+      const assignment = Task.create(studentId, taskId);
       const status = "未着手";
 
-      expect(assignment).toBeInstanceOf(Assignment);
+      expect(assignment).toBeInstanceOf(Task);
       expect(assignment.id).toBeDefined();
       expect(typeof assignment.id).toBe("string");
       expect(assignment.studentId).toBe(studentId);
@@ -20,13 +20,13 @@ describe("Assignment Entity", () => {
   });
 
   describe("reconstruct", () => {
-    it("Assignmentを再構成できる", () => {
+    it("Taskを再構成できる", () => {
       const id = "assignment01";
       const status = "完了";
 
-      const assignment = Assignment.reconstruct(id, studentId, taskId, status);
+      const assignment = Task.reconstruct(id, studentId, taskId, status);
 
-      expect(assignment).toBeInstanceOf(Assignment);
+      expect(assignment).toBeInstanceOf(Task);
       expect(assignment.id).toBe(id);
       expect(assignment.studentId).toBe(studentId);
       expect(assignment.taskId).toBe(taskId);
@@ -36,7 +36,7 @@ describe("Assignment Entity", () => {
 
   describe("changeStatus", () => {
     it("進捗ステータスを変更できる", () => {
-      const assignment = Assignment.create(studentId, taskId);
+      const assignment = Task.create(studentId, taskId);
       expect(assignment.status).toBe("未着手");
 
       assignment.changeStatus("レビュー待ち");
