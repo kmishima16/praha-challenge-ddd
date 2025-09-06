@@ -100,8 +100,8 @@ export const tasks = pgTable(
   ],
 );
 
-export const assignmentStatusHistories = pgTable(
-  "assignment_status_histories",
+export const taskStatusHistories = pgTable(
+  "task_status_histories",
   {
     id: varchar("id").primaryKey(),
     taskId: varchar("task_id")
@@ -169,7 +169,7 @@ export const assignmentsRelations = relations(assignments, ({ many }) => ({
 
 export const taskProgressRelations = relations(taskProgress, ({ many }) => ({
   tasks: many(tasks),
-  assignmentStatusHistories: many(assignmentStatusHistories),
+  taskStatusHistories: many(taskStatusHistories),
 }));
 
 export const tasksRelations = relations(tasks, ({ one, many }) => ({
@@ -185,18 +185,18 @@ export const tasksRelations = relations(tasks, ({ one, many }) => ({
     fields: [tasks.taskProgressId],
     references: [taskProgress.id],
   }),
-  assignmentStatusHistories: many(assignmentStatusHistories),
+  taskStatusHistories: many(taskStatusHistories),
 }));
 
-export const assignmentStatusHistoriesRelations = relations(
-  assignmentStatusHistories,
+export const taskStatusHistoriesRelations = relations(
+  taskStatusHistories,
   ({ one }) => ({
     task: one(tasks, {
-      fields: [assignmentStatusHistories.taskId],
+      fields: [taskStatusHistories.taskId],
       references: [tasks.id],
     }),
     taskProgress: one(taskProgress, {
-      fields: [assignmentStatusHistories.taskProgressId],
+      fields: [taskStatusHistories.taskProgressId],
       references: [taskProgress.id],
     }),
   }),
