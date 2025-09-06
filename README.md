@@ -8,16 +8,16 @@
 
 ```bash
 // 課題作成
-curl -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d '{"name": "特大課題DDD", "contentUrl": "https://separated-rover-67e.notion.site/DDD-03e9d01f643244f0ad9d80f148a46563"}'
+curl -X POST http://localhost:3000/assignments -H "Content-Type: application/json" -d '{"name": "特大課題DDD", "contentUrl": "https://separated-rover-67e.notion.site/DDD-03e9d01f643244f0ad9d80f148a46563"}'
 
 // 課題編集
-curl -X PATCH http://localhost:3000/tasks/01K4DG9WJ3RK8NN31VC2X1P0NT -H "Content-Type: application/json" -d '{"name": "特大課題：プラハチャレンジをDDDで実装してみる"}'
+curl -X PATCH http://localhost:3000/assignments/01K4FPNCMB2G6WF91RKMB5Z32G -H "Content-Type: application/json" -d '{"name": "特大課題：プラハチャレンジをDDDで実装してみる"}'
 
 // 課題取得
-curl -X GET http://localhost:3000/tasks/01K4DG9WJ3RK8NN31VC2X1P0NT
+curl -X GET http://localhost:3000/assignments/01K4FPNCMB2G6WF91RKMB5Z32G
 
 // 課題一覧取得
-curl -X GET http://localhost:3000/tasks
+curl -X GET http://localhost:3000/assignments
 ```
 
 
