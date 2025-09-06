@@ -1,17 +1,17 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import "dotenv/config";
-import { createTaskController } from "./presentation/task/create-task-controller";
-import { editTaskTitleController } from "./presentation/task/edit-task-title-controller";
-import { getTaskController } from "./presentation/task/get-task-controller";
-import { getTaskListController } from "./presentation/task/get-task-list-controller";
+import { createAssignmentController } from "./presentation/assignment/create-assignment-controller";
+import { editAssignmentTitleController } from "./presentation/assignment/edit-assignment-title-controller";
+import { getAssignmentController } from "./presentation/assignment/get-assignment-controller";
+import { getAssignmentListController } from "./presentation/assignment/get-assignment-list-controller";
 
 const app = new Hono();
 
-app.route("/", getTaskController);
-app.route("/", getTaskListController);
-app.route("/", createTaskController);
-app.route("/", editTaskTitleController);
+app.route("/", getAssignmentController);
+app.route("/", getAssignmentListController);
+app.route("/", createAssignmentController);
+app.route("/", editAssignmentTitleController);
 
 const port = 3000;
 console.log(`Server is running on port ${port}`);
