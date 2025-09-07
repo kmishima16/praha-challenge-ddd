@@ -7,7 +7,7 @@ describe("MailAddress ValueObject", () => {
       const validEmail = "test@example.com";
       const mailAddress = MailAddress.create(validEmail);
       expect(mailAddress).toBeInstanceOf(MailAddress);
-      expect(mailAddress.getValue()).toBe(validEmail);
+      expect(mailAddress.getAddress()).toBe(validEmail);
     });
 
     it("無効なメールアドレス形式の場合、エラーをスローする", () => {
@@ -30,11 +30,11 @@ describe("MailAddress ValueObject", () => {
     });
   });
 
-  describe("getValue", () => {
+  describe("getAddress", () => {
     it("メールアドレスの文字列を返す", () => {
       const email = "user@domain.co.jp";
       const mailAddress = MailAddress.create(email);
-      expect(mailAddress.getValue()).toBe(email);
+      expect(mailAddress.getAddress()).toBe(email);
     });
   });
 

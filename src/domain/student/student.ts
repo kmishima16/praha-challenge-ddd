@@ -62,7 +62,7 @@ export class Student {
   }
 
   public get email(): string {
-    return this.#email.getValue();
+    return this.#email.getAddress();
   }
 
   public get status(): StudentStatus {

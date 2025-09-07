@@ -1,15 +1,15 @@
 export class MailAddress {
-  private readonly value: string;
+  #address: string;
 
-  private constructor(value: string) {
-    if (!this.isValidEmail(value)) {
+  private constructor(address: string) {
+    if (!this.isValidEmail(address)) {
       throw new Error("無効な形式のメールアドレスです。");
     }
-    this.value = value;
+    this.#address = address;
   }
 
-  public static create(value: string): MailAddress {
-    return new MailAddress(value);
+  public static create(address: string): MailAddress {
+    return new MailAddress(address);
   }
 
   private isValidEmail(email: string): boolean {
@@ -17,11 +17,11 @@ export class MailAddress {
     return emailRegex.test(email);
   }
 
-  public getValue(): string {
-    return this.value;
+  public getAddress(): string {
+    return this.#address;
   }
 
   public equals(other: MailAddress): boolean {
-    return this.value === other.getValue();
+    return this.#address === other.getAddress();
   }
 }
