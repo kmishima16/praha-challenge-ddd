@@ -93,7 +93,8 @@ export const tasks = pgTable(
     taskProgressId: varchar("task_progress_id")
       .notNull()
       .references(() => taskProgress.id),
-    updatedAt: timestamp("updated_at").notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => [
     unique("unique_user_assignment").on(table.userId, table.assignmentId),
