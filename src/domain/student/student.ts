@@ -1,4 +1,5 @@
 import { ulid } from "../../libs/ulid";
+import type { Task } from "../task/task";
 import type { MailAddress } from "./value-object/mail-address";
 
 type StudentStatus = "在籍中" | "休会中" | "退会済" | "卒業済";
@@ -9,7 +10,7 @@ export class Student {
   #lastName: string;
   #email: MailAddress;
   #status: StudentStatus;
-  // TODO: assignmentId
+  #tasks: Task[];
 
   private constructor(
     id: string,
@@ -30,7 +31,7 @@ export class Student {
     this.#lastName = lastName;
     this.#email = email;
     this.#status = status;
-    // this.#assignments = assignments;
+    this.#tasks = [];
   }
 
   public static create(
@@ -75,5 +76,15 @@ export class Student {
    */
   public changeStatus(newStatus: StudentStatus): void {
     this.#status = newStatus;
+  }
+
+  /**
+   * student生成時は、全てのassignmentにおける"未着手"状態のtaskが付与される。
+   * @param tasks 割り当てるタスクの配列
+   */
+  public assignInitialTasks(tasks: Task[]): void {
+    for(const task of tasks) {
+      this.#tasks.push(task);
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Student } from "./student";
 import { MailAddress } from "./value-object/mail-address";
+import type { Task } from "../task/task";
 
 describe("Student Entity", () => {
   describe("create", () => {
@@ -83,6 +84,22 @@ describe("Student Entity", () => {
       // ステータスを「卒業済」に変更
       student.changeStatus("卒業済");
       expect(student.status).toBe("卒業済");
+    });
+  });
+
+    describe("assignInitialTasks", () => {
+    const mockTask1 = { id: "task1" } as Task;
+    const mockTask2 = { id: "task2" } as Task;
+    const initialTasks = [mockTask1, mockTask2];
+
+    it("生徒にタスクを割り当てられる", () => {
+      const student = Student.create(
+        "test",
+        "name",
+        MailAddress.create("task@example.com"),
+      );
+
+      expect(() => student.assignInitialTasks(initialTasks)).not.toThrow();
     });
   });
 });
