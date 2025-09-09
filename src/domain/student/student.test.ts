@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Student } from "./student";
+import type { Task } from "./task";
 import { MailAddress } from "./value-object/mail-address";
-import type { Task } from "../task/task";
 
 describe("Student Entity", () => {
   describe("create", () => {
@@ -17,8 +17,10 @@ describe("Student Entity", () => {
       expect(student.id).toBeDefined();
       expect(typeof student.id).toBe("string");
       expect(student.name).toBe(`${firstName} ${lastName}`);
-      expect(student.email).toBe("test@example.com");
+      expect(student.mailAddress).toBe("test@example.com");
+      expect(student.userType).toBe("student");
       expect(student.status).toBe(status);
+      expect(student.tasks).toEqual([]);
     });
 
     it("firstNameが空文字の場合、エラーを返す", () => {
@@ -57,8 +59,10 @@ describe("Student Entity", () => {
       expect(student).toBeInstanceOf(Student);
       expect(student.id).toBe(id);
       expect(student.name).toBe(`${firstName} ${lastName}`);
-      expect(student.email).toBe("reconstruct@example.com");
+      expect(student.mailAddress).toBe("reconstruct@example.com");
+      expect(student.userType).toBe("student");
       expect(student.status).toBe(status);
+      expect(student.tasks).toEqual([]);
     });
   });
 
@@ -87,7 +91,7 @@ describe("Student Entity", () => {
     });
   });
 
-    describe("assignInitialTasks", () => {
+  describe("assignInitialTasks", () => {
     const mockTask1 = { id: "task1" } as Task;
     const mockTask2 = { id: "task2" } as Task;
     const initialTasks = [mockTask1, mockTask2];

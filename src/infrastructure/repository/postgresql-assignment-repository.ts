@@ -40,4 +40,18 @@ export class PostgresqlAssignmentRepository implements IAssignmentRepository {
 
     return Assignment.reconstruct(row.id, row.name, row.contentUrl);
   }
+
+  public async findAll() {
+    const rows = await this.database
+      .select({
+        id: assignments.id,
+        name: assignments.name,
+        contentUrl: assignments.contentUrl,
+      })
+      .from(assignments);
+
+    return rows.map((row) =>
+      Assignment.reconstruct(row.id, row.name, row.contentUrl),
+    );
+  }
 }
