@@ -35,7 +35,7 @@ export class PostgresqlStudentRepository implements IStudentRepository {
       const taskStatusHistoriesValues: (typeof schema.taskStatusHistories.$inferInsert)[] =
         [];
 
-      for(const task of student.tasks){
+      for (const task of student.tasks) {
         const taskProgressId = taskProgress.id;
         if (!taskProgressId) {
           throw new Error(`Task progress ID for "${task.status}" not found.`);
@@ -82,5 +82,10 @@ export class PostgresqlStudentRepository implements IStudentRepository {
           .values(taskStatusHistoriesValues);
       }
     });
+  }
+
+  public async findByEmail(): Promise<Student | null> {
+    // FIXME: 実装する
+    return null;
   }
 }
