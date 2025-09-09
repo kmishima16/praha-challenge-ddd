@@ -15,7 +15,6 @@ app.route("/", createAssignmentController);
 app.route("/", editAssignmentTitleController);
 app.route("/", createStudentController);
 
-
 const port = 3000;
 console.log(`Server is running on port ${port}`);
 

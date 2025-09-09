@@ -41,7 +41,7 @@ export class PostgresqlAssignmentRepository implements IAssignmentRepository {
     return Assignment.reconstruct(row.id, row.name, row.contentUrl);
   }
 
-    public async findAll() {
+  public async findAll() {
     const rows = await this.database
       .select({
         id: assignments.id,
@@ -54,5 +54,4 @@ export class PostgresqlAssignmentRepository implements IAssignmentRepository {
       Assignment.reconstruct(row.id, row.name, row.contentUrl),
     );
   }
-
 }

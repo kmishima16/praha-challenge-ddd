@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { Task } from "../task/task";
 import { Student } from "./student";
 import { MailAddress } from "./value-object/mail-address";
-import type { Task } from "../task/task";
 
 describe("Student Entity", () => {
   describe("create", () => {
@@ -91,7 +91,7 @@ describe("Student Entity", () => {
     });
   });
 
-    describe("assignInitialTasks", () => {
+  describe("assignInitialTasks", () => {
     const mockTask1 = { id: "task1" } as Task;
     const mockTask2 = { id: "task2" } as Task;
     const initialTasks = [mockTask1, mockTask2];
