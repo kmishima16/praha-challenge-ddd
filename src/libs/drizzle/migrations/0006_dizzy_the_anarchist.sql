@@ -1,0 +1,1 @@
+ALTER TABLE "task_status_histories" ALTER COLUMN "created_at" SET DEFAULT now();

@@ -109,7 +109,7 @@ export const taskStatusHistories = pgTable("task_status_histories", {
   taskProgressId: varchar("task_progress_id")
     .notNull()
     .references(() => taskProgress.id),
-  createdAt: timestamp("created_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 // --- Relations ---
