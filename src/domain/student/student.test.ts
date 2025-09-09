@@ -17,7 +17,8 @@ describe("Student Entity", () => {
       expect(student.id).toBeDefined();
       expect(typeof student.id).toBe("string");
       expect(student.name).toBe(`${firstName} ${lastName}`);
-      expect(student.email).toBe("test@example.com");
+      expect(student.mailAddress).toBe("test@example.com");
+      expect(student.userType).toBe("student");
       expect(student.status).toBe(status);
       expect(student.tasks).toEqual([]);
     });
@@ -58,7 +59,8 @@ describe("Student Entity", () => {
       expect(student).toBeInstanceOf(Student);
       expect(student.id).toBe(id);
       expect(student.name).toBe(`${firstName} ${lastName}`);
-      expect(student.email).toBe("reconstruct@example.com");
+      expect(student.mailAddress).toBe("reconstruct@example.com");
+      expect(student.userType).toBe("student");
       expect(student.status).toBe(status);
       expect(student.tasks).toEqual([]);
     });

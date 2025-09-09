@@ -3,6 +3,7 @@ import type { Task } from "../task/task";
 import type { MailAddress } from "./value-object/mail-address";
 
 type StudentStatus = "在籍中" | "休会中" | "退会済" | "卒業済";
+type UserType = "student" | "admin";
 
 export class Student {
   #id: string;
@@ -10,6 +11,7 @@ export class Student {
   #lastName: string;
   #email: MailAddress;
   #status: StudentStatus;
+  #userType: UserType;
   #tasks: Task[];
 
   private constructor(
@@ -31,6 +33,7 @@ export class Student {
     this.#lastName = lastName;
     this.#email = email;
     this.#status = status;
+    this.#userType = "student";
     this.#tasks = [];
   }
 
@@ -62,7 +65,19 @@ export class Student {
     return `${this.#firstName} ${this.#lastName}`;
   }
 
-  public get email(): string {
+  public get firstName(): string {
+    return this.#firstName;
+  }
+
+  public get lastName(): string {
+    return this.#lastName;
+  }
+
+  public get userType(): UserType {
+    return this.#userType;
+  }
+
+  public get mailAddress(): string {
     return this.#email.getAddress();
   }
 
@@ -87,7 +102,7 @@ export class Student {
    * @param tasks 割り当てるタスクの配列
    */
   public assignInitialTasks(tasks: Task[]): void {
-    for(const task of tasks) {
+    for (const task of tasks) {
       this.#tasks.push(task);
     }
   }
