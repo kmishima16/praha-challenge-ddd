@@ -5,34 +5,34 @@ type TaskStatus = "未着手" | "レビュー待ち" | "完了";
 export class Task {
   #id: string;
   #studentId: string;
-  #taskId: string;
+  #assignmentId: string;
   #status: TaskStatus;
 
   private constructor(
     id: string,
     studentId: string,
-    taskId: string,
+    assignmentId: string,
     status: TaskStatus,
   ) {
     this.#id = id;
     this.#studentId = studentId;
-    this.#taskId = taskId;
+    this.#assignmentId = assignmentId;
     this.#status = status;
   }
 
-  public static create(studentId: string, taskId: string): Task {
+  public static create(studentId: string, assignmentId: string): Task {
     const id = ulid();
     const status: TaskStatus = "未着手";
-    return new Task(id, studentId, taskId, status);
+    return new Task(id, studentId, assignmentId, status);
   }
 
   public static reconstruct(
     id: string,
     studentId: string,
-    taskId: string,
+    assignmentId: string,
     status: TaskStatus,
   ): Task {
-    return new Task(id, studentId, taskId, status);
+    return new Task(id, studentId, assignmentId, status);
   }
 
   public get id(): string {
@@ -43,8 +43,8 @@ export class Task {
     return this.#studentId;
   }
 
-  public get taskId(): string {
-    return this.#taskId;
+  public get assignmentId(): string {
+    return this.#assignmentId;
   }
 
   public get status(): TaskStatus {
