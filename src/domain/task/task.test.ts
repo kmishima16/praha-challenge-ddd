@@ -3,7 +3,7 @@ import { Task } from "./task";
 
 describe("Task Entity", () => {
   const studentId = "student_01";
-  const assignmentId = "task_01";
+  const assignmentId = "assignment_01";
 
   describe("create", () => {
     it("Taskを作成できる", () => {
@@ -21,7 +21,7 @@ describe("Task Entity", () => {
 
   describe("reconstruct", () => {
     it("Taskを再構成できる", () => {
-      const id = "assignment01";
+      const id = "task01";
       const status = "完了";
 
       const task = Task.reconstruct(id, studentId, assignmentId, status);
