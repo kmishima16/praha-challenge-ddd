@@ -1,7 +1,7 @@
 import type { IStudentRepository } from "../student-repository";
 import type { MailAddress } from "../value-object/mail-address";
 
-export class EmailNotDuplicated {
+export class MailAddressNotDuplicated {
   private readonly studentRepository: IStudentRepository;
 
   public constructor(studentRepository: IStudentRepository) {
