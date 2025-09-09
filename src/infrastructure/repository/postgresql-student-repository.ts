@@ -3,6 +3,7 @@ import type { Student } from "../../domain/student/student";
 import type { IStudentRepository } from "../../domain/student/student-repository";
 import type { Database } from "../../libs/drizzle/get-database";
 import * as schema from "../../libs/drizzle/schema";
+import { ulid } from "../../libs/ulid";
 
 export class PostgresqlStudentRepository implements IStudentRepository {
   constructor(private readonly database: Database) {}
@@ -30,18 +31,27 @@ export class PostgresqlStudentRepository implements IStudentRepository {
         throw new Error(`Task progress "${taskStatusName}" not found.`);
       }
 
-      const tasksValues = student.tasks.map((task) => {
+      const tasksValues: (typeof schema.tasks.$inferInsert)[] = [];
+      const taskStatusHistoriesValues: (typeof schema.taskStatusHistories.$inferInsert)[] =
+        [];
+
+      for(const task of student.tasks){
         const taskProgressId = taskProgress.id;
         if (!taskProgressId) {
           throw new Error(`Task progress ID for "${task.status}" not found.`);
         }
-        return {
+        tasksValues.push({
           id: task.id,
           userId: task.studentId,
           assignmentId: task.assignmentId,
           taskProgressId: taskProgressId,
-        };
-      });
+        });
+        taskStatusHistoriesValues.push({
+          id: ulid(),
+          taskId: task.id,
+          taskProgressId: taskProgressId,
+        });
+      }
 
       // Studentの保存
       await tx.insert(schema.users).values({
@@ -53,9 +63,23 @@ export class PostgresqlStudentRepository implements IStudentRepository {
         userType: student.userType,
       });
 
+      // UserStatusHistoryの保存
+      await tx.insert(schema.userStatusHistories).values({
+        id: ulid(),
+        userId: student.id,
+        userStatusId: userStatus.id,
+      });
+
       // Studentに紐づくTaskの保存
       if (tasksValues.length > 0) {
         await tx.insert(schema.tasks).values(tasksValues);
+      }
+
+      // TaskStatusHistoryの保存
+      if (taskStatusHistoriesValues.length > 0) {
+        await tx
+          .insert(schema.taskStatusHistories)
+          .values(taskStatusHistoriesValues);
       }
     });
   }
