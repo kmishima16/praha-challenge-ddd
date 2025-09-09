@@ -18,6 +18,10 @@ curl -X GET http://localhost:3000/assignments/01K4FPNCMB2G6WF91RKMB5Z32G
 
 // 課題一覧取得
 curl -X GET http://localhost:3000/assignments
+
+// 生徒作成
+curl -X POST http://localhost:3000/students -H "Content-Type: application/json" -d '{"firstName": "test", "lastName": "name", "email": "test@example.com"}'
+
 ```
 
 
