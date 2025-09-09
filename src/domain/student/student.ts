@@ -1,5 +1,5 @@
 import { ulid } from "../../libs/ulid";
-import type { Task } from "../task/task";
+import type { Task } from "./task";
 import type { MailAddress } from "./value-object/mail-address";
 
 type StudentStatus = "在籍中" | "休会中" | "退会済" | "卒業済";

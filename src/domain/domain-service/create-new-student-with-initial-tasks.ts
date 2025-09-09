@@ -1,7 +1,7 @@
 import type { IAssignmentRepository } from "../assignment/assignment-repository";
 import { Student } from "../student/student";
+import { Task } from "../student/task";
 import type { MailAddress } from "../student/value-object/mail-address";
-import { Task } from "../task/task";
 
 export class CreateNewStudentWithInitialTasks {
   constructor(private readonly assignmentRepository: IAssignmentRepository) {}

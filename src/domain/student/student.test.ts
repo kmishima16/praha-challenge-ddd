@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { Task } from "../task/task";
 import { Student } from "./student";
+import type { Task } from "./task";
 import { MailAddress } from "./value-object/mail-address";
 
 describe("Student Entity", () => {
