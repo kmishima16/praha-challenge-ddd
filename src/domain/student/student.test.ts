@@ -19,6 +19,7 @@ describe("Student Entity", () => {
       expect(student.name).toBe(`${firstName} ${lastName}`);
       expect(student.email).toBe("test@example.com");
       expect(student.status).toBe(status);
+      expect(student.tasks).toEqual([]);
     });
 
     it("firstNameが空文字の場合、エラーを返す", () => {
@@ -59,6 +60,7 @@ describe("Student Entity", () => {
       expect(student.name).toBe(`${firstName} ${lastName}`);
       expect(student.email).toBe("reconstruct@example.com");
       expect(student.status).toBe(status);
+      expect(student.tasks).toEqual([]);
     });
   });
 

@@ -70,6 +70,10 @@ export class Student {
     return this.#status;
   }
 
+  public get tasks(): Task[] {
+    return this.#tasks;
+  }
+
   /**
    * 在籍ステータスを変更します。
    * @param newStatus 新しい在籍ステータス
