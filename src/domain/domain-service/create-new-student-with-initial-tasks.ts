@@ -1,16 +1,10 @@
 import type { IAssignmentRepository } from "../assignment/assignment-repository";
 import { Student } from "../student/student";
-import type { IStudentRepository } from "../student/student-repository";
 import type { MailAddress } from "../student/value-object/mail-address";
 import { Task } from "../task/task";
-import type { ITaskRepository } from "../task/task-repository";
 
 export class CreateNewStudentWithInitialTasks {
-  constructor(
-    private readonly studentRepository: IStudentRepository,
-    private readonly assignmentRepository: IAssignmentRepository,
-    private readonly taskRepository: ITaskRepository,
-  ) {}
+  constructor(private readonly assignmentRepository: IAssignmentRepository) {}
 
   public async invoke(
     firstName: string,
@@ -26,12 +20,6 @@ export class CreateNewStudentWithInitialTasks {
 
     // Taskの追加
     student.assignInitialTasks(initialTasks);
-
-    // 保存
-    await this.studentRepository.save(student);
-    for (const task of initialTasks) {
-      await this.taskRepository.save(task);
-    }
 
     return student;
   }
