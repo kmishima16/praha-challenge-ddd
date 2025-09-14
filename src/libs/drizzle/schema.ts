@@ -1,23 +1,24 @@
-import { relations } from "drizzle-orm";
-import { date, pgTable, timestamp, unique, varchar } from "drizzle-orm/pg-core";
+import {
+  varchar,
+  timestamp,
+  date,
+  unique,
+  pgTable,
+} from "drizzle-orm/pg-core";
 
 //// ------------------------------------------------------
 //// Users
 //// ------------------------------------------------------
 
-export const users = pgTable("users", {
+// ユーザー種別のマスターデータ (例: student, admin)
+export const userTypes = pgTable("user_types", {
   id: varchar("id").primaryKey(),
-  userStatusId: varchar("user_status_id")
-    .notNull()
-    .references(() => userStatus.id),
-  emailAddress: varchar("email_address", { length: 255 }).notNull().unique(),
-  userType: varchar("user_type", { length: 50 }).notNull(),
-  firstName: varchar("first_name", { length: 255 }).notNull(),
-  lastName: varchar("last_name", { length: 255 }).notNull(),
+  name: varchar("name", { length: 50 }).notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// ユーザーの在籍ステータスのマスターデータ (例: 在籍, 休会, 退会)
 export const userStatus = pgTable("user_status", {
   id: varchar("id").primaryKey(),
   name: varchar("name", { length: 50 }).notNull().unique(),
@@ -25,22 +26,27 @@ export const userStatus = pgTable("user_status", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const userStatusHistories = pgTable("user_status_histories", {
+// ユーザー情報
+export const users = pgTable("users", {
   id: varchar("id").primaryKey(),
-  userId: varchar("user_id")
-    .notNull()
-    .references(() => users.id),
   userStatusId: varchar("user_status_id")
     .notNull()
     .references(() => userStatus.id),
-  changedAt: timestamp("changed_at").defaultNow().notNull(),
+  userTypeId: varchar("user_type_id")
+    .notNull()
+    .references(() => userTypes.id),
+  mailAddress: varchar("mail_address", { length: 255 }).notNull().unique(),
+  firstName: varchar("first_name", { length: 255 }).notNull(),
+  lastName: varchar("last_name", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 //// ------------------------------------------------------
 //// Teams
 //// ------------------------------------------------------
 
+// チーム情報
 export const teams = pgTable("teams", {
   id: varchar("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull().unique(),
@@ -48,7 +54,8 @@ export const teams = pgTable("teams", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const teamMemberships = pgTable("team_memberships", {
+// チームのメンバー所属履歴
+export const teamMembershipHistories = pgTable("team_membership_histories", {
   id: varchar("id").primaryKey(),
   userId: varchar("user_id")
     .notNull()
@@ -56,146 +63,69 @@ export const teamMemberships = pgTable("team_memberships", {
   teamId: varchar("team_id")
     .notNull()
     .references(() => teams.id),
-  startDate: date("start_date").notNull(),
-  endDate: date("end_date"), // NULLの場合、現在も所属中
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-//// ------------------------------------------------------
-//// Tasks & Progress
-//// ------------------------------------------------------
-
-export const assignments = pgTable("assignments", {
-  id: varchar("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
-  contentUrl: varchar("content_url", { length: 2048 }).notNull(),
+  entryDate: date("entry_date").notNull(),
+  // NULLの場合は現在も所属中
+  withdrawDate: date("withdraw_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const taskProgress = pgTable("task_progress", {
+//// ------------------------------------------------------
+//// Challenges & UserTasks
+//// ------------------------------------------------------
+
+// 課題カテゴリのマスターデータ
+export const challengeCategories = pgTable("challenge_categories", {
+  id: varchar("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// 課題のマスターデータ
+export const challenges = pgTable("challenges", {
+  id: varchar("id").primaryKey(),
+  challengeCategoryId: varchar("challenge_category_id")
+    .notNull()
+    .references(() => challengeCategories.id),
+  name: varchar("name", { length: 255 }).notNull().unique(),
+  contentUrl: varchar("content_url", { length: 2048 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// 課題進捗ステータスのマスターデータ (例: 未着手, 取組中, レビュー待ち, 完了)
+export const taskStatus = pgTable("task_status", {
   id: varchar("id").primaryKey(),
   name: varchar("name", { length: 50 }).notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const tasks = pgTable(
-  "tasks",
+// ユーザーごとの課題進捗
+export const userTasks = pgTable(
+  "user_tasks",
   {
     id: varchar("id").primaryKey(),
     userId: varchar("user_id")
       .notNull()
       .references(() => users.id),
-    assignmentId: varchar("assignment_id")
+    challengeId: varchar("challenge_id")
       .notNull()
-      .references(() => assignments.id),
-    taskProgressId: varchar("task_progress_id")
+      .references(() => challenges.id),
+    taskStatusId: varchar("task_status_id")
       .notNull()
-      .references(() => taskProgress.id),
-    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+      .references(() => taskStatus.id),
     createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
-  (table) => [
-    unique("unique_user_assignment").on(table.userId, table.assignmentId),
-  ],
-);
-
-export const taskStatusHistories = pgTable("task_status_histories", {
-  id: varchar("id").primaryKey(),
-  taskId: varchar("task_id")
-    .notNull()
-    .references(() => tasks.id),
-  taskProgressId: varchar("task_progress_id")
-    .notNull()
-    .references(() => taskProgress.id),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-// --- Relations ---
-
-export const usersRelations = relations(users, ({ one, many }) => ({
-  userStatus: one(userStatus, {
-    fields: [users.userStatusId],
-    references: [userStatus.id],
-  }),
-  userStatusHistories: many(userStatusHistories),
-  teamMemberships: many(teamMemberships),
-  tasks: many(tasks),
-}));
-
-export const userStatusRelations = relations(userStatus, ({ many }) => ({
-  users: many(users),
-  userStatusHistories: many(userStatusHistories),
-}));
-
-export const userStatusHistoriesRelations = relations(
-  userStatusHistories,
-  ({ one }) => ({
-    user: one(users, {
-      fields: [userStatusHistories.userId],
-      references: [users.id],
-    }),
-    userStatus: one(userStatus, {
-      fields: [userStatusHistories.userStatusId],
-      references: [userStatus.id],
-    }),
-  }),
-);
-
-export const teamsRelations = relations(teams, ({ many }) => ({
-  teamMemberships: many(teamMemberships),
-}));
-
-export const teamMembershipRelations = relations(
-  teamMemberships,
-  ({ one }) => ({
-    user: one(users, {
-      fields: [teamMemberships.userId],
-      references: [users.id],
-    }),
-    team: one(teams, {
-      fields: [teamMemberships.teamId],
-      references: [teams.id],
-    }),
-  }),
-);
-
-export const assignmentsRelations = relations(assignments, ({ many }) => ({
-  tasks: many(tasks),
-}));
-
-export const taskProgressRelations = relations(taskProgress, ({ many }) => ({
-  tasks: many(tasks),
-  taskStatusHistories: many(taskStatusHistories),
-}));
-
-export const tasksRelations = relations(tasks, ({ one, many }) => ({
-  user: one(users, {
-    fields: [tasks.userId],
-    references: [users.id],
-  }),
-  assignment: one(assignments, {
-    fields: [tasks.assignmentId],
-    references: [assignments.id],
-  }),
-  taskProgress: one(taskProgress, {
-    fields: [tasks.taskProgressId],
-    references: [taskProgress.id],
-  }),
-  taskStatusHistories: many(taskStatusHistories),
-}));
-
-export const taskStatusHistoriesRelations = relations(
-  taskStatusHistories,
-  ({ one }) => ({
-    task: one(tasks, {
-      fields: [taskStatusHistories.taskId],
-      references: [tasks.id],
-    }),
-    taskProgress: one(taskProgress, {
-      fields: [taskStatusHistories.taskProgressId],
-      references: [taskProgress.id],
-    }),
-  }),
+  (table) => {
+    return {
+      // user_idとchallenge_idの組み合わせでユニーク制約を設定
+      userChallengeUnique: unique("user_challenge_unique").on(
+        table.userId,
+        table.challengeId
+      ),
+    };
+  }
 );
