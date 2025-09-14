@@ -6,6 +6,7 @@ import { editAssignmentTitleController } from "./presentation/assignment/edit-as
 import { getAssignmentController } from "./presentation/assignment/get-assignment-controller";
 import { getAssignmentListController } from "./presentation/assignment/get-assignment-list-controller";
 import { createStudentController } from "./presentation/student/create-student-controller";
+import { createChallengeController } from "./presentation/challenge/create-challenge-controller";
 
 const app = new Hono();
 
@@ -14,6 +15,7 @@ app.route("/", getAssignmentListController);
 app.route("/", createAssignmentController);
 app.route("/", editAssignmentTitleController);
 app.route("/", createStudentController);
+app.route("/", createChallengeController);
 
 const port = 3000;
 console.log(`Server is running on port ${port}`);
