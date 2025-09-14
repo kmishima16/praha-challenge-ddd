@@ -13,6 +13,9 @@ curl -X POST http://localhost:3000/assignments -H "Content-Type: application/jso
 curl -X POST http://localhost:3000/assignments -H "Content-Type: application/json" -d '{"name": "汎用的なコンポーネントを作成しよう_props編", "contentUrl": "https://separated-rover-67e.notion.site/props-138633efdb0b80999694d64f1bf3b65d"}'
 curl -X POST http://localhost:3000/assignments -H "Content-Type: application/json" -d '{"name": "汎用的なコンポーネントを作成しよう_css編", "contentUrl": "https://separated-rover-67e.notion.site/CSS-139633efdb0b807aa23ce8d6fc9a44e0"}'
 
+curl -X POST http://localhost:3000/assignments -H "Content-Type: application/json" -d '{"name": "データベースモデリング1", "contentUrl": "https://www.notion.so/DB-1-fd8a70e7f2054e35b274127da1b4e004"}'
+curl -X POST http://localhost:3000/assignments -H "Content-Type: application/json" -d '{"name": "データベースのアンチパターンを学ぶ1", "contentUrl": "https://www.notion.so/1-ae63cd9aaf6640f5a3598f6ea93c02d0"}'
+
 // 課題編集
 curl -X PATCH http://localhost:3000/assignments/01K4FPNCMB2G6WF91RKMB5Z32G -H "Content-Type: application/json" -d '{"name": "特大課題：プラハチャレンジをDDDで実装してみる"}'
 
@@ -23,8 +26,9 @@ curl -X GET http://localhost:3000/assignments/01K4FPNCMB2G6WF91RKMB5Z32G
 curl -X GET http://localhost:3000/assignments
 
 // 生徒作成
-curl -X POST http://localhost:3000/students -H "Content-Type: application/json" -d '{"firstName": "test", "lastName": "name", "email": "test@example.com"}'
+curl -X POST http://localhost:3000/students -H "Content-Type: application/json" -d '{"firstName": "test1", "lastName": "name1", "email": "test@example.com"}'
 curl -X POST http://localhost:3000/students -H "Content-Type: application/json" -d '{"firstName": "test2", "lastName": "name2", "email": "test2@example.com"}'
+curl -X POST http://localhost:3000/students -H "Content-Type: application/json" -d '{"firstName": "test3", "lastName": "name3", "email": "test3@example.com"}'
 
 ```
 
