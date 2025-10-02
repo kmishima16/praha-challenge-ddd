@@ -1,19 +1,11 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import "dotenv/config";
-import { createAssignmentController } from "./presentation/assignment/create-assignment-controller";
-import { editAssignmentTitleController } from "./presentation/assignment/edit-assignment-title-controller";
-import { getAssignmentController } from "./presentation/assignment/get-assignment-controller";
-import { getAssignmentListController } from "./presentation/assignment/get-assignment-list-controller";
-import { createStudentController } from "./presentation/student/create-student-controller";
+import { createChallengeController } from "./presentation/challenge/create-challenge-controller";
 
 const app = new Hono();
 
-app.route("/", getAssignmentController);
-app.route("/", getAssignmentListController);
-app.route("/", createAssignmentController);
-app.route("/", editAssignmentTitleController);
-app.route("/", createStudentController);
+app.route("/", createChallengeController);
 
 const port = 3000;
 console.log(`Server is running on port ${port}`);

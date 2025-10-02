@@ -1,0 +1,27 @@
+[
+  {
+    "name": "データベースモデリング1",
+    "contentUrl": "https://www.notion.so/DB-1-fd8a70e7f2054e35b274127da1b4e004",
+    "challengeCategory": "データベース設計"
+  },
+  {
+    "name": "データベースのアンチパターンを学ぶ1",
+    "contentUrl": "https://www.notion.so/1-ae63cd9aaf6640f5a3598f6ea93c02d0",
+    "challengeCategory": "データベース設計"
+  },
+  {
+    "name": "特大課題DDD",
+    "contentUrl": "https://separated-rover-67e.notion.site/DDD-03e9d01f643244f0ad9d80f148a46563",
+    "challengeCategory": "設計"
+  },
+  {
+    "name": "汎用的なコンポーネントを作成しよう_props編",
+    "contentUrl": "https://separated-rover-67e.notion.site/props-138633efdb0b80999694d64f1bf3b65d",
+    "challengeCategory": "フロントエンド"
+  },
+  {
+    "name": "汎用的なコンポーネントを作成しよう_css編",
+    "contentUrl": "https://separated-rover-67e.notion.site/CSS-139633efdb0b807aa23ce8d6fc9a44e0",
+    "challengeCategory": "フロントエンド"
+  }
+]
