@@ -5,8 +5,8 @@ import { createAssignmentController } from "./presentation/assignment/create-ass
 import { editAssignmentTitleController } from "./presentation/assignment/edit-assignment-title-controller";
 import { getAssignmentController } from "./presentation/assignment/get-assignment-controller";
 import { getAssignmentListController } from "./presentation/assignment/get-assignment-list-controller";
-import { createStudentController } from "./presentation/student/create-student-controller";
 import { createChallengeController } from "./presentation/challenge/create-challenge-controller";
+import { createStudentController } from "./presentation/student/create-student-controller";
 
 const app = new Hono();
 

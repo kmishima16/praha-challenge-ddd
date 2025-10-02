@@ -1,4 +1,4 @@
-import { varchar, timestamp, date, unique, pgTable } from "drizzle-orm/pg-core";
+import { date, pgTable, timestamp, unique, varchar } from "drizzle-orm/pg-core";
 
 //// ------------------------------------------------------
 //// Users

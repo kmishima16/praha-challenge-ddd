@@ -4,7 +4,7 @@ import type {
   ChallengeListQueryServicePayload,
 } from "../../application/query-service/challenge-list-query-service";
 import type { Database } from "../../libs/drizzle/get-database";
-import { challenges, challengeCategories } from "../../libs/drizzle/schema";
+import { challengeCategories, challenges } from "../../libs/drizzle/schema";
 
 export class PostgresqlChallengeListQueryService
   implements ChallengeListQueryServiceInterface
