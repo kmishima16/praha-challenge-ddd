@@ -25,9 +25,7 @@ getChallengeController.get(
   }),
   createMiddleware<Env>(async (context, next) => {
     const database = getDatabase();
-    const challengeQueryService = new PostgresqlChallengeQueryService(
-      database,
-    );
+    const challengeQueryService = new PostgresqlChallengeQueryService(database);
     context.set("challengeQueryService", challengeQueryService);
 
     await next();

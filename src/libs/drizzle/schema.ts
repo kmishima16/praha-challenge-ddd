@@ -1,10 +1,4 @@
-import {
-  varchar,
-  timestamp,
-  date,
-  unique,
-  pgTable,
-} from "drizzle-orm/pg-core";
+import { varchar, timestamp, date, unique, pgTable } from "drizzle-orm/pg-core";
 
 //// ------------------------------------------------------
 //// Users
@@ -124,8 +118,8 @@ export const userTasks = pgTable(
       // user_idとchallenge_idの組み合わせでユニーク制約を設定
       userChallengeUnique: unique("user_challenge_unique").on(
         table.userId,
-        table.challengeId
+        table.challengeId,
       ),
     };
-  }
+  },
 );

@@ -20,6 +20,9 @@ export class PostgresqlChallengeListQueryService
         challengeCategory: challengeCategories.name,
       })
       .from(challenges)
-      .innerJoin(challengeCategories, eq(challenges.challengeCategoryId, challengeCategories.id));
+      .innerJoin(
+        challengeCategories,
+        eq(challenges.challengeCategoryId, challengeCategories.id),
+      );
   }
 }

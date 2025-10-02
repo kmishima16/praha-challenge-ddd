@@ -9,7 +9,11 @@ describe("Challenge Entity", () => {
         "https://separated-rover-67e.notion.site/DDD-03e9d01f643244f0ad9d80f148a46563";
       const challengeCategory = "データベース設計";
 
-      const challenge = Challenge.create(challengeName, contentUrl, challengeCategory);
+      const challenge = Challenge.create(
+        challengeName,
+        contentUrl,
+        challengeCategory,
+      );
 
       expect(challenge.id).toBeDefined(); // id採番が正しくできているか
       expect(typeof challenge.id).toBe("string");
@@ -38,7 +42,12 @@ describe("Challenge Entity", () => {
       const contentUrl = "https://example.com/db-spec";
       const challengeCategory = "SQL";
 
-      const challenge = Challenge.reconstruct(id, challengeName, contentUrl, challengeCategory);
+      const challenge = Challenge.reconstruct(
+        id,
+        challengeName,
+        contentUrl,
+        challengeCategory,
+      );
 
       expect(challenge.id).toBe(id);
       expect(challenge.name).toBe(challengeName);
@@ -54,7 +63,11 @@ describe("Challenge Entity", () => {
       const contentUrl = "https://example.com";
       const challengeCategory = "フロントエンド";
 
-      const challenge = Challenge.create(initialName, contentUrl, challengeCategory);
+      const challenge = Challenge.create(
+        initialName,
+        contentUrl,
+        challengeCategory,
+      );
       challenge.changeName(updatedName);
 
       expect(challenge.name).toBe(updatedName);
@@ -63,7 +76,11 @@ describe("Challenge Entity", () => {
     it("名前が未入力の場合、エラー出力", () => {
       const contentUrl = "https://example.com";
       const challengeCategory = "Webの基礎";
-      const challenge = Challenge.create("Valid Name", contentUrl, challengeCategory);
+      const challenge = Challenge.create(
+        "Valid Name",
+        contentUrl,
+        challengeCategory,
+      );
 
       // 空文字への変更はエラーになること
       expect(() => {
