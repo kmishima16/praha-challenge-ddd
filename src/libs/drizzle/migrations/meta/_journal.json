@@ -57,6 +57,13 @@
       "when": 1757851625390,
       "tag": "0007_bent_hawkeye",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1759753497286,
+      "tag": "0008_lovely_wallop",
+      "breakpoints": true
     }
   ]
 }

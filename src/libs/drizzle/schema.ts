@@ -1,4 +1,4 @@
-import { date, pgTable, timestamp, unique, varchar } from "drizzle-orm/pg-core";
+import { pgTable, timestamp, unique, varchar } from "drizzle-orm/pg-core";
 
 //// ------------------------------------------------------
 //// Users
@@ -29,9 +29,11 @@ export const users = pgTable("users", {
   userTypeId: varchar("user_type_id")
     .notNull()
     .references(() => userTypes.id),
+  teamId: varchar("team_id")
+    .notNull()
+    .references(() => teams.id),
   mailAddress: varchar("mail_address", { length: 255 }).notNull().unique(),
-  firstName: varchar("first_name", { length: 255 }).notNull(),
-  lastName: varchar("last_name", { length: 255 }).notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -44,22 +46,6 @@ export const users = pgTable("users", {
 export const teams = pgTable("teams", {
   id: varchar("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull().unique(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-// チームのメンバー所属履歴
-export const teamMembershipHistories = pgTable("team_membership_histories", {
-  id: varchar("id").primaryKey(),
-  userId: varchar("user_id")
-    .notNull()
-    .references(() => users.id),
-  teamId: varchar("team_id")
-    .notNull()
-    .references(() => teams.id),
-  entryDate: date("entry_date").notNull(),
-  // NULLの場合は現在も所属中
-  withdrawDate: date("withdraw_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
